@@ -1,0 +1,8 @@
+# Character Material
+newmtl tripo_material_52c5322f-f830-4b05-bf3a-4add81523356
+Ka 1.000 1.000 1.000
+Kd 1.000 1.000 1.000
+Ks 0.000 0.000 0.000
+d 1.0
+illum 2
+map_Kd texture.jpg

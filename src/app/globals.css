@@ -1,26 +1,425 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --animate-marquee: marquee var(--duration, 40s) linear infinite;
+  --animate-marquee-vertical: marquee-vertical var(--duration, 40s) linear infinite;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% - var(--gap, 0px)));
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes marquee-vertical {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-100% - var(--gap, 0px)));
+  }
+}
+
+.animate-marquee {
+  animation: marquee var(--duration, 40s) linear infinite;
+}
+
+.animate-marquee-vertical {
+  animation: marquee-vertical var(--duration, 40s) linear infinite;
+}
+
+@font-face {
+  font-family: 'Hobeaux';
+  src: url('/fonts/Hobeaux-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  font-feature-settings: "ss02";
+}
+
+:root {
+  /* Surface Tokens - Dark Chapter (Hero, Matrix, Terminal) */
+  --bg-dark-base: #370232;
+  --bg-dark-surface: #4A0E44;
+  --bg-dark-elevated: #744470;
+  --border-dark-subtle: rgba(255, 255, 255, 0.08);
+  --border-dark-medium: rgba(255, 208, 0, 0.22);
+  --border-dark-active: rgba(255, 208, 0, 0.45);
+
+  /* Surface Tokens - Light Editorial Chapter (Philosophy, Works) */
+  --bg-light-base: #F2EEE5;
+  --bg-light-surface: #FFFFFF;
+  --bg-light-elevated: #E7E2D7;
+  --border-light-subtle: rgba(55, 2, 50, 0.08);
+  --border-light-medium: rgba(55, 2, 50, 0.16);
+  --border-light-active: rgba(55, 2, 50, 0.32);
+
+  /* Typography Colors */
+  --text-dark-primary: #F2EEE5;
+  --text-dark-muted: #D1B8CE;
+  --text-dark-subtle: #A3849F;
+  
+  --text-light-primary: #370232;
+  --text-light-muted: #744470;
+  --text-light-subtle: #986F94;
+
+  /* Signature Accents & Focal Points */
+  --accent-yellow: #FFD000;
+  --accent-yellow-rgb: 255, 208, 0;
+  --accent-cyan: #FFD000;
+  --accent-cyan-rgb: 255, 208, 0;
+  --accent-technical: #FFD000;
+  --accent-violet: #744470;
+  --accent-violet-rgb: 116, 68, 112;
+  --accent-laser: #FFD000;
+  --accent-laser-rgb: 255, 208, 0;
+  --accent-focal: #FFD000;
+  --accent-cobalt: #744470;
+  --accent-amber: #FFD000;
+  --accent-emerald: #10B981;
+}
+
+/* Fluid Viewport Base Sizing */
+html {
+  scroll-behavior: auto !important;
+  background-color: var(--bg-dark-base);
+  color: var(--text-dark-primary);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scrollbar-width: thin;
+  scrollbar-color: #744470 #370232;
+}
+
+@media (min-width: 900px) {
+  html.fluid {
+    font-size: clamp(12px, 1.05vw, 22px);
+  }
+}
+
+/* Lenis Smooth Scroll Utilities */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Custom Text Selection */
+::selection {
+  background-color: #FFD000;
+  color: #370232;
+}
+
+/* Subtle SVG Noise Filter Texture */
+.noise-texture {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* Text Outline Stroke Utility */
+.text-stroke-white {
+  -webkit-text-stroke: 0.035em rgba(255, 255, 255, 0.9);
+}
+
+.text-stroke-cyan {
+  -webkit-text-stroke: 0.035em var(--accent-yellow);
+}
+
+/* Metallic Chrome Gradient Text */
+.text-chrome {
+  background: linear-gradient(180deg, #ffffff 0%, #fef08a 50%, #ffffff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Siglitos Pop-Art 3D Sticker Typography */
+.font-hobeaux {
+  font-family: 'Hobeaux', cursive, sans-serif;
+  font-feature-settings: "ss02" on;
+}
+
+.siglitos-pop-white {
+  font-family: 'Hobeaux', cursive, sans-serif;
+  font-feature-settings: "ss02" on;
+  color: #ffffff;
+  paint-order: stroke fill;
+  -webkit-text-stroke: 0.04em #000000;
+  text-shadow:
+    0.02em 0.02em 0 #000000,
+    0.04em 0.04em 0 #000000,
+    0.06em 0.06em 0 #000000,
+    0.08em 0.08em 0 #000000;
+}
+
+.siglitos-pop-yellow {
+  font-family: 'Hobeaux', cursive, sans-serif;
+  font-feature-settings: "ss02" on;
+  color: #FFD000;
+  paint-order: stroke fill;
+  -webkit-text-stroke: 0.04em #000000;
+  text-shadow:
+    0.02em 0.02em 0 #000000,
+    0.04em 0.04em 0 #000000,
+    0.06em 0.06em 0 #000000,
+    0.08em 0.08em 0 #000000;
+}
+
+/* Dot Grid Background with Dynamic Mask */
+.dot-grid {
+  background-image: radial-gradient(rgba(55, 2, 50, 0.15) 1.5px, transparent 1.5px);
+  background-size: 28px 28px;
+}
+
+.dot-grid-dark {
+  background-image: radial-gradient(rgba(255, 208, 0, 0.15) 1.5px, transparent 1.5px);
+  background-size: 28px 28px;
+}
+
+/* Styled custom scrollbar configured to scheme: Deep plum (#370232), Muted violet (#744470), Electric yellow (#FFD000) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #370232;
+}
+::-webkit-scrollbar-thumb {
+  background: #744470;
+  border-radius: 9999px;
+  border: 2px solid #370232;
+  transition: background-color 0.2s ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #FFD000;
+  box-shadow: 0 0 10px rgba(255, 208, 0, 0.4);
+}
+::-webkit-scrollbar-corner {
+  background: #370232;
+}
+
+/* Accessibility: Graceful degradation under prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* David Estrada Selected Work Architecture */
+.work-section {
+  position: relative;
+  width: 100%;
+  background-color: #F2EEE5;
+  color: #370232;
+  overflow: clip;
+}
+
+.work__stage {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .work__stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 1;
+  }
+}
+
+.work__title-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.16em;
+  font-family: 'Hobeaux', cursive, sans-serif;
+  font-feature-settings: "ss02" on;
+  font-size: clamp(3.2rem, 11vw, 10.5rem);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.work__cushion {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 0.72em;
+  height: 0.72em;
+  border-radius: 0.24em;
+  background: #370232;
+  box-shadow: 0 0.35rem 0.8rem rgba(55, 2, 50, 0.25), 0 0.05rem 0.15rem rgba(0, 0, 0, 0.15);
+  border: 2.5px solid #FFD000;
+  pointer-events: auto;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.work__cushion:hover {
+  transform: scale(1.08) rotate(-4deg);
+  box-shadow: 0 0.5rem 1.4rem rgba(255, 208, 0, 0.45);
+}
+
+.work__list {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: clamp(6rem, 24vh, 16rem);
+  margin-top: -14vh;
+  padding-bottom: clamp(6rem, 16vh, 12rem);
+  list-style: none;
+  perspective: 1200px;
+}
+
+/* Post alignment with measured words --a-* and --b-* */
+.work-card {
+  position: relative;
+  width: var(--a-w, 56%);
+  margin-left: var(--a-x, 0px);
+  will-change: transform;
+}
+
+.work-card:nth-child(even) {
+  width: var(--b-w, 36%);
+  margin-left: var(--b-x, 64%);
+}
+
+.work-card__media {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  background-color: #370232;
+  box-shadow: 0 24px 48px -12px rgba(55, 2, 50, 0.25), 0 0 0 1px rgba(55, 2, 50, 0.12);
+  transform: translateY(calc(var(--p, 0) * 1px)) rotateX(calc(var(--v, 0) * -4deg));
+  transition: transform 0.1s linear, box-shadow 0.4s ease;
+  will-change: transform;
+}
+
+.work-card:hover .work-card__media {
+  box-shadow: 0 32px 64px -16px rgba(55, 2, 50, 0.38), 0 0 0 2px #FFD000;
+}
+
+.work-card__media img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.work-card:hover .work-card__media img {
+  transform: scale(1.04);
+}
+
+/* Cursor tag pill - Signature Electric Yellow */
+.cursor-tag {
+  position: absolute;
+  left: var(--tag-x, 50%);
+  top: var(--tag-y, 50%);
+  transform: translate(-50%, -50%) scale(0.65);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.15rem;
+  border-radius: 9999px;
+  background: #FFD000;
+  color: #370232;
+  font-family: monospace;
+  font-size: 0.8125rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  box-shadow: 0 10px 25px rgba(255, 208, 0, 0.45);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, left 0.12s ease-out, top 0.12s ease-out;
+}
+
+.work-card:hover .cursor-tag {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+}
+
+/* Pinned caption */
+.work__caption {
+  position: sticky;
+  bottom: 0;
+  z-index: 15;
+  width: 100%;
+  padding: clamp(3rem, 10vh, 6rem) 2rem clamp(1.5rem, 4vh, 2.5rem);
+  background: linear-gradient(to top, #F2EEE5 64%, rgba(242, 238, 229, 0.9) 82%, transparent 100%);
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.work__caption.is-on {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .work__stage {
+    display: none !important;
+  }
+  .work__title-line {
+    display: none !important;
+  }
+  .work__list {
+    row-gap: 3.5rem;
+    margin-top: 0 !important;
+    padding-bottom: 4rem;
+  }
+  .work-card,
+  .work-card:nth-child(even) {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+  .work-card__media {
+    border-radius: 1.15rem;
+    transform: none !important;
+  }
+  .cursor-tag {
+    display: none !important;
+  }
+}
+
+
+/* The project modal lives inside a z-20 section, so the z-40 thread would draw over it */
+main:has([data-modal]) .scroll-thread {
+  display: none;
 }
