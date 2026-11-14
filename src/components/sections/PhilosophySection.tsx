@@ -9,8 +9,6 @@ export function PhilosophySection() {
   const containerRef = useRef<HTMLElement>(null);
   const heroBlockRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLParagraphElement>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-
   const { scrollYProgress } = useScroll({
     target: heroBlockRef,
     offset: ["start 80%", "end 45%"],
@@ -27,10 +25,10 @@ export function PhilosophySection() {
 
   const onMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    setMousePos({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
-    });
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    e.currentTarget.style.setProperty("--mouse-x", `${x}px`);
+    e.currentTarget.style.setProperty("--mouse-y", `${y}px`);
   };
 
   return (
@@ -49,8 +47,8 @@ export function PhilosophySection() {
         <div
           className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 dot-grid"
           style={{
-            maskImage: `radial-gradient(450px at ${mousePos.x}px ${mousePos.y}px, black, transparent)`,
-            WebkitMaskImage: `radial-gradient(450px at ${mousePos.x}px ${mousePos.y}px, black, transparent)`,
+            maskImage: "radial-gradient(450px at var(--mouse-x, -500px) var(--mouse-y, -500px), black, transparent)",
+            WebkitMaskImage: "radial-gradient(450px at var(--mouse-x, -500px) var(--mouse-y, -500px), black, transparent)",
           }}
           aria-hidden="true"
         />

@@ -78,13 +78,6 @@ export default function RootLayout({
           type="font/woff2"
           crossOrigin="anonymous"
         />
-        {/* Non-blocking Background 3D Model Stream */}
-        <link
-          rel="preload"
-          href="/character/tripo_character.glb"
-          as="fetch"
-          crossOrigin="anonymous"
-        />
       </head>
       <body
         suppressHydrationWarning

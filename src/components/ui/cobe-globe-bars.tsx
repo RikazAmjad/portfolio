@@ -116,6 +116,7 @@ export function GlobeBars({
     const container = containerRef.current
     let globe: ReturnType<typeof createGlobe> | null = null
     let animationId: number
+    let io: IntersectionObserver | null = null
     let phi = 0
 
     function init() {
@@ -152,31 +153,54 @@ export function GlobeBars({
         opacity: 0.85,
       })
 
+      let isVisible = false
+
+      const markerElements = !supportsAnchor
+        ? markers.map((m) => ({
+            id: m.id,
+            anchorEl: container.querySelector(`[style*="--cobe-${m.id}"]`) as HTMLElement | null,
+            markerCard: container.querySelector(`[data-marker-id="${m.id}"]`) as HTMLElement | null,
+          }))
+        : []
+
       function animate() {
+        if (!isVisible) {
+          animationId = 0
+          return
+        }
+
         if (!isPausedRef.current) phi += speed
-        globe!.update({
+        globe?.update({
           phi: phi + phiOffsetRef.current + dragOffset.current.phi,
           theta: 0.2 + thetaOffsetRef.current + dragOffset.current.theta,
         })
 
         // Fallback for browsers lacking native CSS Anchor Positioning
         if (!supportsAnchor) {
-          markers.forEach((m) => {
-            const anchorEl = container.querySelector(`[style*="--cobe-${m.id}"]`) as HTMLElement
-            const markerCard = container.querySelector(`[data-marker-id="${m.id}"]`) as HTMLElement
+          for (const { id, anchorEl, markerCard } of markerElements) {
             if (anchorEl && markerCard) {
               markerCard.style.left = anchorEl.style.left
               markerCard.style.top = anchorEl.style.top
-              const isVisible = canvas.style.getPropertyValue(`--cobe-visible-${m.id}`)
-              markerCard.style.opacity = isVisible ? "1" : "0"
+              const isVis = canvas?.style.getPropertyValue(`--cobe-visible-${id}`)
+              markerCard.style.opacity = isVis ? "1" : "0"
             }
-          })
+          }
         }
 
         animationId = requestAnimationFrame(animate)
       }
 
-      animate()
+      io = new IntersectionObserver(
+        ([entry]) => {
+          isVisible = entry.isIntersecting
+          if (isVisible && !animationId) {
+            animationId = requestAnimationFrame(animate)
+          }
+        },
+        { rootMargin: "150px 0px" }
+      )
+      io.observe(container)
+
       setTimeout(() => canvas && (canvas.style.opacity = "1"))
     }
 
@@ -193,6 +217,7 @@ export function GlobeBars({
     }
 
     return () => {
+      if (io) io.disconnect()
       if (animationId) cancelAnimationFrame(animationId)
       if (globe) globe.destroy()
     }
