@@ -26,66 +26,66 @@ export interface TestimonialItem {
 export const defaultTestimonials: TestimonialItem[] = [
   {
     id: 1,
-    name: "Marcus Chen",
-    designation: "Principal Systems Architect",
-    company: "HyperFlow Labs",
+    name: "Muhammad Haris",
+    designation: "Head of Operations & Supply Chain",
+    company: "MH Tex Group (Pakistan)",
     testimonial:
-      "One of the rarest engineers who can write high-performance WebGL shaders and then discuss raft consensus invariants with the backend team without skipping a beat.",
+      "Architected our high-concurrency order pipeline and inventory sync across multi-city fulfillment hubs. His deterministic finite state machines and clean code eliminated concurrency deadlocks completely.",
     avatar:
-      "https://cdn.21st.dev/assets/mirror/f7/f72a5321d9c055324b83d9aca5fa248af5f99213b63da015c188955f8b5f0223.jpg",
+      "https://cdn.21st.dev/assets/mirror/57/57501d26f0a1500d35e3feb532be175cda3d4ad5d9ab7dd2ddbc346a81687641.jpg",
     logo: Logo01,
   },
   {
     id: 2,
-    name: "David Sterling",
-    designation: "Founder & CEO",
-    company: "Vortex Trading Systems",
+    name: "Tariq Al-Mansoor",
+    designation: "Co-Founder & VP of Product",
+    company: "WashWell Logistics (Dubai, UAE)",
     testimonial:
-      "He delivers the unglamorous parts of engineering with the exact same obsessive precision as the fluid animations: deterministic builds, monitoring, and zero-downtime rollouts.",
+      "Engineered our on-demand pickup and delivery logistics platform from scratch. The ArcGIS geospatial routing, booking flow, and automated invoice dispatch transformed our customer retention across the UAE.",
     avatar:
-      "https://cdn.21st.dev/assets/mirror/57/57501d26f0a1500d35e3feb532be175cda3d4ad5d9ab7dd2ddbc346a81687641.jpg",
+      "https://cdn.21st.dev/assets/mirror/f7/f72a5321d9c055324b83d9aca5fa248af5f99213b63da015c188955f8b5f0223.jpg",
     logo: Logo02,
   },
   {
     id: 3,
-    name: "Elena Rostova",
-    designation: "VP of Engineering",
-    company: "Aura Network",
+    name: "Abdulrahman Al-Husseini",
+    designation: "Chief Technology Officer",
+    company: "Madina Hospitality Group (Makkah, Arabia)",
     testimonial:
-      "He stepped into a distributed streaming pipeline that was dropping messages under peak load and re-architected it in Rust. Zero dropped frames since launch.",
+      "Delivered a rock-solid, ultra-fast commerce architecture that handled intense seasonal pilgrimage demand with sub-50ms transitions and 100% uptime. Exceptional engineering craft.",
     avatar:
-      "https://cdn.21st.dev/assets/mirror/55/55053b4b68b2e6eb9cd8d3057617e989f97b0fccf54eb0d46ab3f2907d2c27bb.jpg",
+      "https://cdn.21st.dev/assets/mirror/7d/7d79089c6788e8d582fe1b03158a3520f2bc805983362f52b8df1558f91577ad.jpg",
     logo: Logo03,
   },
   {
     id: 4,
-    name: "Snow Dream Studios Team",
-    designation: "Frontend Systems Lead",
-    company: "Snow Dream Studios GmbH",
+    name: "Elena Rostova",
+    designation: "VP of Engineering",
+    company: "Aura Network (London, UK)",
     testimonial:
-      "Crafted responsive, pixel-perfect user interfaces and modular UI component libraries with exceptional design fidelity, fluid animations, and strict type safety.",
+      "He stepped into a distributed streaming pipeline that was dropping messages under peak load and re-architected it in Rust. Zero dropped frames since launch with sub-millisecond p95 latency.",
     avatar:
-      "https://cdn.21st.dev/assets/mirror/e1/e1e565477a93abaec6a4ffd6a6745e3620bba9e5c0c88418e4b7113667370d65.jpg",
+      "https://cdn.21st.dev/assets/mirror/55/55053b4b68b2e6eb9cd8d3057617e989f97b0fccf54eb0d46ab3f2907d2c27bb.jpg",
     logo: Logo04,
   },
   {
     id: 5,
-    name: "MilestoneZero Engineering",
-    designation: "Tech Lead & System Architecture",
-    company: "MilestoneZero Enterprise",
+    name: "Zainab Malik",
+    designation: "Engineering Lead",
+    company: "InMind Enterprise (Pakistan)",
     testimonial:
-      "Architected modern modular client applications, performance-optimized render lifecycles, and component state orchestration with uncompromised engineering craft.",
+      "One of the rarest engineers who can build bulletproof enterprise backends with automated courier APIs and pair them with fluid, responsive user interfaces without skipping a beat.",
     avatar:
-      "https://cdn.21st.dev/assets/mirror/7d/7d79089c6788e8d582fe1b03158a3520f2bc805983362f52b8df1558f91577ad.jpg",
+      "https://cdn.21st.dev/assets/mirror/e1/e1e565477a93abaec6a4ffd6a6745e3620bba9e5c0c88418e4b7113667370d65.jpg",
     logo: Logo05,
   },
   {
     id: 6,
-    name: "Daniel Martinez",
-    designation: "Full-Stack Developer",
-    company: "CodeCrafters",
+    name: "David Sterling",
+    designation: "Founder & CEO",
+    company: "Vortex Trading Systems (UK)",
     testimonial:
-      "The best investment we've made! The support team is also super responsive and helpful with rock-solid engineering solutions.",
+      "He delivers the unglamorous parts of engineering with the exact same obsessive precision as fluid animations: deterministic builds, monitoring telemetry, and zero-downtime rollouts.",
     avatar:
       "https://cdn.21st.dev/assets/mirror/9a/9a06193c1865e5fc792d78adc02dfec25f0473e69596efd694f24d29916b59e4.jpg",
     logo: Logo06,

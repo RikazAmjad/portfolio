@@ -117,26 +117,26 @@ export function GlobeBars({
     let globe: ReturnType<typeof createGlobe> | null = null
     let animationId: number
     let io: IntersectionObserver | null = null
-    let phi = 0
+    let phi = 0.9
 
     function init() {
       const width = canvas.offsetWidth
       if (width === 0 || globe) return
 
       // Create arcs connecting prominent hubs
-      const arcs = [
-        { from: markers[0]?.location || [37.77, -122.42], to: markers[1]?.location || [40.71, -74.01] },
-        { from: markers[1]?.location || [40.71, -74.01], to: markers[2]?.location || [51.51, -0.13] },
-        { from: markers[2]?.location || [51.51, -0.13], to: markers[3]?.location || [52.52, 13.40] },
-        { from: markers[3]?.location || [52.52, 13.40], to: markers[4]?.location || [35.68, 139.65] },
-      ]
+      const arcs = markers.length > 1
+        ? markers.map((m, i) => ({
+            from: m.location,
+            to: markers[(i + 1) % markers.length].location,
+          }))
+        : []
 
       globe = createGlobe(canvas, {
         devicePixelRatio: Math.min(window.devicePixelRatio || 1, 2),
         width,
         height: width,
-        phi: 0,
-        theta: 0.2,
+        phi: 0.9,
+        theta: 0.22,
         dark,
         diffuse: 1.5,
         mapSamples: 16000,

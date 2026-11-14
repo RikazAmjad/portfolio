@@ -5,59 +5,48 @@ import { Testimonials } from "@/components/ui/testimonials-13";
 
 const globeReviews: BarMarker[] = [
   {
-    id: "review-sf",
-    location: [37.77, -122.42],
+    id: "review-pk",
+    location: [31.5204, 74.3587],
     value: 99,
     rating: 5,
-    label: "SF",
-    review: "Exceptional speed and craft",
-    city: "San Francisco",
-    author: "Marcus Chen",
-    company: "HyperFlow Labs",
+    label: "PK",
+    review: "High-throughput order processing & zero inventory contention",
+    city: "Lahore, Pakistan",
+    author: "Muhammad Haris",
+    company: "MH Tex & OMS Operations",
   },
   {
-    id: "review-nyc",
-    location: [40.71, -74.01],
-    value: 96,
-    rating: 5,
-    label: "NYC",
-    review: "Sub-5ms ultra-low latency",
-    city: "New York",
-    author: "David Sterling",
-    company: "Vortex Trading",
-  },
-  {
-    id: "review-ldn",
-    location: [51.51, -0.13],
-    value: 94,
-    rating: 5,
-    label: "LDN",
-    review: "Zero dropped frames in production",
-    city: "London",
-    author: "Elena Rostova",
-    company: "Aura Network",
-  },
-  {
-    id: "review-ber",
-    location: [52.52, 13.40],
+    id: "review-uae",
+    location: [25.2048, 55.2708],
     value: 100,
     rating: 5,
-    label: "BER",
-    review: "Pixel-perfect modular design systems",
-    city: "Berlin",
-    author: "Snow Dream Studios Team",
-    company: "Snow Dream Studios",
+    label: "UAE",
+    review: "Doorstep ArcGIS geospatial routing & automated booking engine",
+    city: "Dubai, UAE",
+    author: "Tariq Al-Mansoor",
+    company: "WashWell Logistics UAE",
   },
   {
-    id: "review-tky",
-    location: [35.68, 139.65],
+    id: "review-makkah",
+    location: [21.3891, 39.8579],
     value: 98,
     rating: 5,
-    label: "TKY",
-    review: "Flawless distributed architecture",
-    city: "Tokyo",
-    author: "MilestoneZero Engineering",
-    company: "MilestoneZero",
+    label: "MAK",
+    review: "Ultra-fast commerce architecture with 100% seasonal uptime",
+    city: "Makkah, Arabia",
+    author: "Abdulrahman Al-Husseini",
+    company: "Madina Hospitality & Commerce",
+  },
+  {
+    id: "review-uk",
+    location: [51.5074, -0.1278],
+    value: 97,
+    rating: 5,
+    label: "UK",
+    review: "Distributed streaming engine with sub-millisecond p95 latency",
+    city: "London, United Kingdom",
+    author: "Elena Rostova",
+    company: "Aura Network UK",
   },
 ];
 
@@ -87,7 +76,7 @@ export function SocialProof() {
           </h2>
 
           <p className="mt-4 max-w-xl font-sans text-sm md:text-base text-[#744470] leading-relaxed">
-            Direct observations and verified client reviews from founders and engineering leaders across global tech hubs. Drag to spin the globe.
+            Direct observations and verified client reviews from founders and engineering leaders across Pakistan, the UK, the UAE, and Makkah (Arabia). Drag to spin the globe.
           </p>
         </div>
 
