@@ -12,7 +12,7 @@ interface ProjectItem {
   description: string;
   tags: string;
   metrics: string[];
-  image: string;
+  image?: string;
   year: string;
   liveUrl?: string;
   isTerminal?: boolean;
@@ -50,7 +50,6 @@ const projects: ProjectItem[] = [
       "Terminal-based AI DevSecOps security middleware and deterministic AST compiler gate preventing prompt injection, privilege escalation, and unauthorized runtime execution in autonomous agent toolchains.",
     tags: "Terminal CLI / TypeScript / Babel AST / LangGraph / pgvector / CI/CD Gate",
     metrics: ["Sub-2ms AST Scan", "Zero Bypass Rate", "Fail-Closed CI/CD Gate"],
-    image: "/projects/agentic-armour-cli.jpg",
     year: "2024",
     isTerminal: true,
   },
@@ -333,14 +332,71 @@ export function SelectedWorks() {
             aria-label={`${project.title}: Open architectural specification`}
           >
             <div className="work-card__media">
-              <Image
-                src={project.image}
-                alt={`${project.title} interface preview`}
-                width={1600}
-                height={1200}
-                priority={idx === 0}
-                className="w-full h-auto aspect-[4/3] object-cover"
-              />
+              {project.image ? (
+                <div className="w-full relative bg-[#240121] overflow-hidden flex items-center justify-center">
+                  <Image
+                    src={project.image}
+                    alt={`${project.title} interface preview`}
+                    width={1600}
+                    height={1000}
+                    priority={idx === 0}
+                    className="w-full h-auto object-contain block transition-transform duration-500 group-hover:scale-[1.01]"
+                  />
+                </div>
+              ) : (
+                /* Pure Terminal CLI Window for AgenticArmor (No Image) */
+                <div className="w-full aspect-[16/10] bg-[#1a0117] text-[#F2EEE5] p-5 sm:p-7 flex flex-col justify-between font-mono select-none border border-white/10">
+                  {/* Terminal Header */}
+                  <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-3">
+                    <div className="flex items-center gap-2">
+                      <span className="w-3 h-3 rounded-full bg-[#FF5F56]" />
+                      <span className="w-3 h-3 rounded-full bg-[#FFBD2E]" />
+                      <span className="w-3 h-3 rounded-full bg-[#27C93F]" />
+                    </div>
+                    <span className="text-[11px] text-white/50 tracking-wider">
+                      agenticarmor — devsecops-cli — 80×24
+                    </span>
+                    <span className="text-[10px] text-emerald-400 font-bold px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">
+                      CLI GATE
+                    </span>
+                  </div>
+
+                  {/* Terminal Execution Trace */}
+                  <div className="space-y-2 text-xs sm:text-sm leading-relaxed text-[#D1B8CE]">
+                    <div className="flex items-center gap-2 text-white">
+                      <span className="text-[#FFD000] font-bold">➜</span>
+                      <span className="text-emerald-400 font-bold">~/repo</span>
+                      <span className="text-white font-semibold">$ agenticarmor audit ./src --fail-closed</span>
+                    </div>
+                    <div className="text-white/60 text-xs pl-4">
+                      [INFO] Extracting Babel AST subtrees across 142 source files...
+                    </div>
+                    <div className="text-white/60 text-xs pl-4">
+                      [SAST] Single-node risk scan: 0 critical flags (eval, child_process)
+                    </div>
+                    <div className="text-white/60 text-xs pl-4">
+                      [CIR]  Canonical Intermediate Representation encoded in 1.8ms
+                    </div>
+                    <div className="text-white/60 text-xs pl-4">
+                      [SWARM] LangGraph Sentinel Swarm: 0 prompt injection vectors
+                    </div>
+                    <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs sm:text-sm pl-4 pt-1">
+                      <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                      <span>✔ AUDIT PASSED: Zero vulnerabilities. Exit Code 0 (Safe to merge)</span>
+                    </div>
+                  </div>
+
+                  {/* Terminal Footer Telemetry */}
+                  <div className="flex flex-wrap items-center justify-between gap-2 border-t border-white/10 pt-3 mt-3 text-[11px] text-white/40">
+                    <div className="flex items-center gap-3">
+                      <span>AST: 1.8ms/file</span>
+                      <span>•</span>
+                      <span>CACHE: 89.4% Hit</span>
+                    </div>
+                    <span className="text-[#FFD000] font-semibold">EXIT CODE: 0</span>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* In-Card Accessible Caption (Visible on Mobile / Fallback) */}

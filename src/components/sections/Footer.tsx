@@ -62,8 +62,8 @@ export function Footer() {
           },
         ]}
         sideLinks={[
-          { icon: "globe", label: "rikazamjad.com", href: "https//:rikazamjad.com" },
-          { icon: "doc", label: "Get CV", href: "https//:rikazamjad.com/cv.pdf" },
+          { icon: "globe", label: "rikazamjad.com", href: "https://rikazamjad.com" },
+          { icon: "doc", label: "Get CV", href: "https://collection.cloudinary.com/drv7bdv3u/ea464e18e9a39382a0689e4b31b79623" },
         ]}
         chat={{ label: "let's talk", href: "mailto:rikazamjad@gmail.com" }}
         copyright="© 2026 Rikaz Amjad"

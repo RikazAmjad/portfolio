@@ -102,10 +102,11 @@ export function Navbar() {
 
             <div className="flex flex-wrap justify-between items-center gap-4 max-w-[94rem] mx-auto w-full border-t border-white/10 pt-6 font-mono text-xs text-white/50">
               <p>Distributed Systems Architecture & Creative Engineering</p>
-              <div className="flex gap-6">
-                <a href="https://github.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">GitHub</a>
+              <div className="flex items-center gap-6">
+                <a href="https://collection.cloudinary.com/drv7bdv3u/ea464e18e9a39382a0689e4b31b79623" target="_blank" rel="noreferrer" className="text-[#FFD000] hover:underline font-bold transition-colors">CV / Resume ↗</a>
+                <a href="https://github.com/RikazAmjad" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">GitHub</a>
                 <a href="https://linkedin.com" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">LinkedIn</a>
-                <a href="mailto:contact@domain.com" className="hover:text-white transition-colors">Email</a>
+                <a href="mailto:rikazamjad@gmail.com" className="hover:text-white transition-colors">Email</a>
               </div>
             </div>
           </motion.div>
