@@ -1316,7 +1316,6 @@ export default function KeycapOrb({
       const now = (nowMs - started) / 1000
       const calm = t.reduced
 
-      resize()
       const W = canvas.width
       const H = canvas.height
       if (W === 0 || H === 0) {

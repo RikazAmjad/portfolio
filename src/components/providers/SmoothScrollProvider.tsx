@@ -32,7 +32,7 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
     };
 
     gsap.ticker.add(updateTicker);
-    gsap.ticker.lagSmoothing(0);
+    gsap.ticker.lagSmoothing(500, 33);
 
     // Provide global reference for programmatic scrolling (e.g., Back to Top button)
     if (typeof window !== "undefined") {
