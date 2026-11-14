@@ -448,10 +448,8 @@ function CharacterTripoModel({
   );
 }
 
-// Preload models
+// Preload active model only
 useGLTF.preload("/character/tripo_character.glb");
-useGLTF.preload("/character/character_tpose.glb");
-useGLTF.preload("/character/character_tpose_clean.glb");
 
 export default function CharacterCanvas({
   initialMode = "tripo",
@@ -459,7 +457,9 @@ export default function CharacterCanvas({
   className = "",
   style,
 }: CharacterCanvasProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
+  const [isInView, setIsInView] = useState(false);
   const [isReducedMotion, setIsReducedMotion] = useState(false);
   const [currentMode, setCurrentMode] = useState<CharacterMode>(initialMode);
 
@@ -471,6 +471,19 @@ export default function CharacterCanvas({
     mql.addEventListener("change", handler);
     return () => mql.removeEventListener("change", handler);
   }, []);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { rootMargin: "200px 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [mounted]);
 
   if (!mounted) {
     return (
@@ -485,6 +498,7 @@ export default function CharacterCanvas({
 
   return (
     <div
+      ref={containerRef}
       className={`relative w-full select-none ${className}`}
       style={{
         aspectRatio: "1.8 / 1",
@@ -493,7 +507,8 @@ export default function CharacterCanvas({
     >
       <Canvas
         camera={{ position: [0, 0, 2.15], fov: 35 }}
-        dpr={[1, Math.min(typeof window !== "undefined" ? window.devicePixelRatio : 1, 2)]}
+        dpr={[1, Math.min(typeof window !== "undefined" ? window.devicePixelRatio : 1, 1.75)]}
+        frameloop={isInView ? "always" : "never"}
         gl={{
           antialias: true,
           alpha: true,

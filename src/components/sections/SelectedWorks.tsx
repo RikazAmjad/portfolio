@@ -203,7 +203,8 @@ export function SelectedWorks() {
 
       setActiveProjectIdx(nearestIdx);
 
-      reqId = onScreen && !document.hidden ? requestAnimationFrame(onFrame) : 0;
+      const isMoving = Math.abs(window.scrollY - lastY) > 0.5 || Math.abs(lean) > 0.005;
+      reqId = onScreen && !document.hidden && isMoving ? requestAnimationFrame(onFrame) : 0;
     };
 
     const wake = () => {
@@ -219,10 +220,12 @@ export function SelectedWorks() {
     });
     io.observe(section);
 
+    window.addEventListener("scroll", wake, { passive: true });
     document.addEventListener("visibilitychange", wake);
 
     return () => {
       io.disconnect();
+      window.removeEventListener("scroll", wake);
       document.removeEventListener("visibilitychange", wake);
       if (reqId) cancelAnimationFrame(reqId);
     };

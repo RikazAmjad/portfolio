@@ -153,18 +153,19 @@ export function LiquidMercuryCanvas({ className = "" }: { className?: string }) 
     const uResolution = gl.getUniformLocation(program, "u_resolution");
     const uTime = gl.getUniformLocation(program, "u_time");
 
-    let animId: number;
+    let animId: number = 0;
     let startTime = performance.now();
+    let isVisible = false;
 
     function resize() {
       if (!canvas) return;
       const width = canvas.parentElement?.clientWidth || window.innerWidth;
       const height = canvas.parentElement?.clientHeight || window.innerHeight;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
 
-      if (canvas.width !== width * dpr || canvas.height !== height * dpr) {
-        canvas.width = width * dpr;
-        canvas.height = height * dpr;
+      if (canvas.width !== Math.round(width * dpr) || canvas.height !== Math.round(height * dpr)) {
+        canvas.width = Math.round(width * dpr);
+        canvas.height = Math.round(height * dpr);
         gl?.viewport(0, 0, canvas.width, canvas.height);
       }
     }
@@ -173,8 +174,10 @@ export function LiquidMercuryCanvas({ className = "" }: { className?: string }) 
     resize();
 
     function render(currentTime: number) {
-      if (!gl || !canvas) return;
-      resize();
+      if (!gl || !canvas || !isVisible) {
+        animId = 0;
+        return;
+      }
 
       const elapsed = (currentTime - startTime) * 0.001;
       gl.uniform2f(uResolution, canvas.width, canvas.height);
@@ -184,10 +187,21 @@ export function LiquidMercuryCanvas({ className = "" }: { className?: string }) 
       animId = requestAnimationFrame(render);
     }
 
-    animId = requestAnimationFrame(render);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible && !animId) {
+          resize();
+          animId = requestAnimationFrame(render);
+        }
+      },
+      { rootMargin: "100px 0px" }
+    );
+    observer.observe(canvas);
 
     return () => {
-      cancelAnimationFrame(animId);
+      observer.disconnect();
+      if (animId) cancelAnimationFrame(animId);
       window.removeEventListener("resize", resize);
       if (gl) {
         gl.deleteBuffer(positionBuffer);
