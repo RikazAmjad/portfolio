@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { PhilosophySection } from "@/components/sections/PhilosophySection";
 import { SelectedWorks } from "@/components/sections/SelectedWorks";
@@ -5,34 +8,45 @@ import { TimelineSection } from "@/components/sections/TimelineSection";
 import { SocialProof } from "@/components/sections/SocialProof";
 import { ContactTerminal } from "@/components/sections/ContactTerminal";
 import { Footer } from "@/components/sections/Footer";
-// import { ScrollThread } from "@/components/ui/ScrollThread";
+import { LogoRevealIntro } from "@/components/sections/LogoRevealIntro";
 
 export default function HomePage() {
+  const [introComplete, setIntroComplete] = useState(false);
+
   return (
-    <div className="relative w-full flex flex-col">
-      {/* Act I: The Transmission & 3D Crystalline Monolith */}
-      <HeroSection />
+    <>
+      {/* Liquid Glass Logo Reveal Screen — plays once on entry, then smoothly cross-fades into portfolio */}
+      <LogoRevealIntro onComplete={() => setIntroComplete(true)} />
 
-      {/* Act II: Spatial Exploration, Manifesto & 4-Tier Architectural Anatomy */}
-      <PhilosophySection />
+      <div
+        className="relative w-full flex flex-col"
+        style={{
+          opacity: introComplete ? 1 : 0,
+          transition: "opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s",
+          pointerEvents: introComplete ? "auto" : "none",
+        }}
+      >
+        {/* Act I: The Transmission & 3D Crystalline Monolith */}
+        <HeroSection />
 
-      {/* Act III: Selected Works, Continuous Cyan Circuit & 3D Tilt Masonry */}
-      <SelectedWorks />
+        {/* Act II: Spatial Exploration, Manifesto & 4-Tier Architectural Anatomy */}
+        <PhilosophySection />
 
-      {/* Act IV: Engineering Storyline Timeline */}
-      <TimelineSection />
+        {/* Act III: Selected Works, Continuous Cyan Circuit & 3D Tilt Masonry */}
+        <SelectedWorks />
 
-      {/* Act V: Vouched Field Notes & Peer Endorsements */}
-      <SocialProof />
+        {/* Act IV: Engineering Storyline Timeline */}
+        <TimelineSection />
 
-      {/* Act VI: Kinetic Rotating Typography & Interactive Dispatch Terminal */}
-      <ContactTerminal />
+        {/* Act V: Vouched Field Notes & Peer Endorsements */}
+        <SocialProof />
 
-      {/* Footer: Directory, Operations, UTC Clock & Back to Top */}
-      <Footer />
+        {/* Act VI: Kinetic Rotating Typography & Interactive Dispatch Terminal */}
+        <ContactTerminal />
 
-      {/* Continuous scroll-drawn thread running through every section after the hero */}
-      {/* <ScrollThread /> */}
-    </div>
+        {/* Footer: Directory, Operations, UTC Clock & Back to Top */}
+        <Footer />
+      </div>
+    </>
   );
 }
