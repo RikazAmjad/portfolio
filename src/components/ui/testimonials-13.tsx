@@ -26,39 +26,50 @@ export interface TestimonialItem {
 export const defaultTestimonials: TestimonialItem[] = [
   {
     id: 1,
+    name: "Muhammad Ali Raza",
+    designation: "Founder & Owner",
+    company: "WashWell Logistics (UAE)",
+    testimonial:
+      "Engineered our on-demand laundry pickup and delivery platform from scratch. The ArcGIS geospatial routing, booking flow, and automated invoice dispatch transformed our customer experience across the UAE.",
+    avatar:
+      "https://cdn.21st.dev/assets/mirror/f7/f72a5321d9c055324b83d9aca5fa248af5f99213b63da015c188955f8b5f0223.jpg",
+    logo: Logo01,
+  },
+  {
+    id: 2,
+    name: "Waseem Afzal",
+    designation: "Founder & Owner",
+    company: "MadinaBites (Makkah, Arabia)",
+    testimonial:
+      "Built our culinary ordering platform with instantaneous cart synchronization, sub-50ms checkout transitions, and zero payment drop during high-traffic seasonal pilgrimage volume.",
+    avatar:
+      "https://cdn.21st.dev/assets/mirror/7d/7d79089c6788e8d582fe1b03158a3520f2bc805983362f52b8df1558f91577ad.jpg",
+    logo: Logo02,
+  },
+  {
+    id: 3,
+    name: "Omer",
+    designation: "Founder & Owner",
+    company: "CoAdverts (Switzerland)",
+    testimonial:
+      "Delivered our global textile merchandising platform bridging Swiss design with industrial manufacturing. Lightning-fast edge filtering, clean Supabase architecture, and automated inquiry dispatch.",
+    avatar:
+      "https://cdn.21st.dev/assets/mirror/57/57501d26f0a1500d35e3feb532be175cda3d4ad5d9ab7dd2ddbc346a81687641.jpg",
+    logo: Logo03,
+  },
+  {
+    id: 4,
     name: "Muhammad Haris",
     designation: "Head of Operations & Supply Chain",
     company: "MH Tex Group (Pakistan)",
     testimonial:
       "Architected our high-concurrency order pipeline and inventory sync across multi-city fulfillment hubs. His deterministic finite state machines and clean code eliminated concurrency deadlocks completely.",
     avatar:
-      "https://cdn.21st.dev/assets/mirror/57/57501d26f0a1500d35e3feb532be175cda3d4ad5d9ab7dd2ddbc346a81687641.jpg",
-    logo: Logo01,
+      "https://cdn.21st.dev/assets/mirror/9a/9a06193c1865e5fc792d78adc02dfec25f0473e69596efd694f24d29916b59e4.jpg",
+    logo: Logo04,
   },
   {
-    id: 2,
-    name: "Tariq Al-Mansoor",
-    designation: "Co-Founder & VP of Product",
-    company: "WashWell Logistics (Dubai, UAE)",
-    testimonial:
-      "Engineered our on-demand pickup and delivery logistics platform from scratch. The ArcGIS geospatial routing, booking flow, and automated invoice dispatch transformed our customer retention across the UAE.",
-    avatar:
-      "https://cdn.21st.dev/assets/mirror/f7/f72a5321d9c055324b83d9aca5fa248af5f99213b63da015c188955f8b5f0223.jpg",
-    logo: Logo02,
-  },
-  {
-    id: 3,
-    name: "Abdulrahman Al-Husseini",
-    designation: "Chief Technology Officer",
-    company: "Madina Hospitality Group (Makkah, Arabia)",
-    testimonial:
-      "Delivered a rock-solid, ultra-fast commerce architecture that handled intense seasonal pilgrimage demand with sub-50ms transitions and 100% uptime. Exceptional engineering craft.",
-    avatar:
-      "https://cdn.21st.dev/assets/mirror/7d/7d79089c6788e8d582fe1b03158a3520f2bc805983362f52b8df1558f91577ad.jpg",
-    logo: Logo03,
-  },
-  {
-    id: 4,
+    id: 5,
     name: "Elena Rostova",
     designation: "VP of Engineering",
     company: "Aura Network (London, UK)",
@@ -66,28 +77,17 @@ export const defaultTestimonials: TestimonialItem[] = [
       "He stepped into a distributed streaming pipeline that was dropping messages under peak load and re-architected it in Rust. Zero dropped frames since launch with sub-millisecond p95 latency.",
     avatar:
       "https://cdn.21st.dev/assets/mirror/55/55053b4b68b2e6eb9cd8d3057617e989f97b0fccf54eb0d46ab3f2907d2c27bb.jpg",
-    logo: Logo04,
-  },
-  {
-    id: 5,
-    name: "Zainab Malik",
-    designation: "Engineering Lead",
-    company: "InMind Enterprise (Pakistan)",
-    testimonial:
-      "One of the rarest engineers who can build bulletproof enterprise backends with automated courier APIs and pair them with fluid, responsive user interfaces without skipping a beat.",
-    avatar:
-      "https://cdn.21st.dev/assets/mirror/e1/e1e565477a93abaec6a4ffd6a6745e3620bba9e5c0c88418e4b7113667370d65.jpg",
     logo: Logo05,
   },
   {
     id: 6,
-    name: "David Sterling",
-    designation: "Founder & CEO",
-    company: "Vortex Trading Systems (UK)",
+    name: "Carlos Mendez",
+    designation: "Co-Founder & Product Lead",
+    company: "CostoComida (Spain)",
     testimonial:
-      "He delivers the unglamorous parts of engineering with the exact same obsessive precision as fluid animations: deterministic builds, monitoring telemetry, and zero-downtime rollouts.",
+      "Developed our bilingual (Spanish/English) progressive web app with seamless offline menu caching, responsive mobile ordering, and zero friction across European diners.",
     avatar:
-      "https://cdn.21st.dev/assets/mirror/9a/9a06193c1865e5fc792d78adc02dfec25f0473e69596efd694f24d29916b59e4.jpg",
+      "https://cdn.21st.dev/assets/mirror/e1/e1e565477a93abaec6a4ffd6a6745e3620bba9e5c0c88418e4b7113667370d65.jpg",
     logo: Logo06,
   },
 ];

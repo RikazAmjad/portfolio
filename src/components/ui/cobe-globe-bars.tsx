@@ -9,6 +9,7 @@ export interface BarMarker {
   value?: number
   label: string
   review?: string
+  fullReview?: string
   city?: string
   author?: string
   company?: string
@@ -75,6 +76,11 @@ export function GlobeBars({
     phiOffsetRef.current = targetPhi
     thetaOffsetRef.current = targetTheta - 0.2
   }, [targetLocation])
+
+  // Pause auto-rotation while a specific marker is actively selected
+  useEffect(() => {
+    isPausedRef.current = Boolean(activeMarkerId)
+  }, [activeMarkerId])
 
   const handlePointerDown = useCallback((e: React.PointerEvent) => {
     pointerInteracting.current = { x: e.clientX, y: e.clientY }
@@ -177,12 +183,20 @@ export function GlobeBars({
 
         // Fallback for browsers lacking native CSS Anchor Positioning
         if (!supportsAnchor) {
-          for (const { id, anchorEl, markerCard } of markerElements) {
-            if (anchorEl && markerCard) {
-              markerCard.style.left = anchorEl.style.left
-              markerCard.style.top = anchorEl.style.top
-              const isVis = canvas?.style.getPropertyValue(`--cobe-visible-${id}`)
-              markerCard.style.opacity = isVis ? "1" : "0"
+          for (const item of markerElements) {
+            if (!item.anchorEl) {
+              item.anchorEl = container.querySelector(`[style*="--cobe-${item.id}"]`) as HTMLElement | null
+            }
+            if (!item.markerCard) {
+              item.markerCard = container.querySelector(`[data-marker-id="${item.id}"]`) as HTMLElement | null
+            }
+            if (item.anchorEl && item.markerCard) {
+              item.markerCard.style.left = item.anchorEl.style.left
+              item.markerCard.style.top = item.anchorEl.style.top
+              const visVal = typeof document !== "undefined"
+                ? getComputedStyle(document.documentElement).getPropertyValue(`--cobe-visible-${item.id}`).trim()
+                : ""
+              item.markerCard.style.opacity = visVal ? "1" : "0"
             }
           }
         }
@@ -257,47 +271,89 @@ export function GlobeBars({
             role="button"
             tabIndex={0}
             className={`group cursor-pointer transition-all duration-300 ${
-              isActive ? "z-30 scale-105" : "z-20 hover:scale-105"
+              isActive ? "z-30 scale-110" : "z-20 hover:scale-105"
             }`}
             style={{
               position: "absolute",
-              positionAnchor: `--cobe-${m.id}`,
-              bottom: "anchor(top)",
-              left: "anchor(center)",
-              translate: "-50% 0",
+              ...(supportsAnchor
+                ? {
+                    positionAnchor: `--cobe-${m.id}`,
+                    bottom: "anchor(top)",
+                    left: "anchor(center)",
+                    translate: "-50% 0",
+                  }
+                : {
+                    transform: "translate(-50%, -100%)",
+                  }),
               marginBottom: 6,
               display: "flex",
               flexDirection: "column" as const,
               alignItems: "center",
-              gap: "0.15rem",
-              padding: "0.22rem 0.38rem",
-              background: "#370232",
-              border: isActive ? "1.5px solid #FFD000" : "1px solid rgba(255, 208, 0, 0.85)",
-              borderRadius: 6,
-              minWidth: 70,
-              maxWidth: 105,
+              gap: "0.12rem",
+              padding: "0.28rem 0.45rem",
+              background: "rgba(55, 2, 50, 0.94)",
+              backdropFilter: "blur(6px)",
+              WebkitBackdropFilter: "blur(6px)",
+              border: isActive ? "1.5px solid #FFD000" : "1px solid rgba(255, 208, 0, 0.8)",
+              borderRadius: 7,
+              minWidth: 80,
+              maxWidth: 120,
               boxShadow: isActive
-                ? "0 0 16px rgba(255, 208, 0, 0.5), 0 6px 16px rgba(55, 2, 50, 0.5)"
-                : "0 4px 14px rgba(55, 2, 50, 0.35)",
+                ? "0 0 20px rgba(255, 208, 0, 0.55), 0 8px 20px rgba(55, 2, 50, 0.6)"
+                : "0 4px 14px rgba(55, 2, 50, 0.38)",
               opacity: `var(--cobe-visible-${m.id}, 0)`,
               filter: `blur(calc((1 - var(--cobe-visible-${m.id}, 0)) * 6px))`,
               transition: "opacity 0.4s, filter 0.4s, transform 0.25s, border-color 0.2s, box-shadow 0.25s",
             }}
           >
-            {/* Review Title (3-5 Words) */}
+            {/* Top: Client Name */}
+            {m.author && (
+              <span
+                style={{
+                  fontFamily: "system-ui, -apple-system, sans-serif",
+                  fontSize: "0.5rem",
+                  fontWeight: 700,
+                  color: "#FFFFFF",
+                  textAlign: "center",
+                  lineHeight: 1.15,
+                  letterSpacing: "-0.01em",
+                }}
+              >
+                {m.author}
+              </span>
+            )}
+
+            {/* City / Hub Tag */}
             <span
               style={{
                 fontFamily: "monospace",
-                fontSize: "0.42rem",
-                fontWeight: 700,
-                letterSpacing: "0.04em",
+                fontSize: "0.38rem",
+                fontWeight: 600,
+                letterSpacing: "0.05em",
                 textTransform: "uppercase" as const,
                 color: "#FFD000",
                 textAlign: "center",
-                lineHeight: 1.18,
+                lineHeight: 1.1,
+                opacity: 0.9,
               }}
             >
-              {displayText}
+              {m.city || m.label}
+            </span>
+
+            {/* Review Title / Highlight */}
+            <span
+              style={{
+                fontFamily: "system-ui, -apple-system, sans-serif",
+                fontSize: "0.42rem",
+                fontWeight: 500,
+                fontStyle: "italic",
+                color: "rgba(242, 238, 229, 0.88)",
+                textAlign: "center",
+                lineHeight: 1.18,
+                marginTop: "1px",
+              }}
+            >
+              “{displayText}”
             </span>
 
             {/* Stars Ranking */}

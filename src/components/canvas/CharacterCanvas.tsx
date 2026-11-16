@@ -133,11 +133,11 @@ function CharacterCoffeeModel({
     const waveAmp = 0.36 * waveIntensity.current;
     let wristWave = Math.sin(state.clock.elapsedTime * waveFreq) * waveAmp;
 
-    // Scroll-scrub wave addition: friendly left-right wave as user scrolls through manifesto
+    // Scroll-scrub wave addition: friendly, fluid left-right wave as user scrolls through manifesto
     const scrollVal = progressSource ? progressSource.get() : 0;
-    if (scrollVal > 0.15) {
-      const scrubPhase = (scrollVal - 0.15) / 0.70;
-      wristWave += Math.sin(scrubPhase * Math.PI * 6.0) * 0.28;
+    if (scrollVal > 0.08) {
+      const scrubPhase = Math.min(Math.max((scrollVal - 0.08) / 0.82, 0), 1);
+      wristWave += Math.sin(scrubPhase * Math.PI * 4.0) * 0.22;
     }
 
     // Interactive click bounce
@@ -170,11 +170,9 @@ function CharacterCoffeeModel({
       onClick={handleClick}
       onPointerOver={() => {
         isHovered.current = true;
-        document.body.style.cursor = "pointer";
       }}
       onPointerOut={() => {
         isHovered.current = false;
-        document.body.style.cursor = "auto";
       }}
     >
       <primitive object={model} />

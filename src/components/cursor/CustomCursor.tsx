@@ -7,6 +7,7 @@ export function CustomCursor() {
   const [isVisible, setIsVisible] = useState(false);
   const [cursorText, setCursorText] = useState("");
   const [isMagnetic, setIsMagnetic] = useState(false);
+  const [isMicroscope, setIsMicroscope] = useState(false);
   const magneticElementRef = useRef<HTMLElement | null>(null);
 
   // Exact mouse positions
@@ -52,6 +53,10 @@ export function CustomCursor() {
       magneticElementRef.current = magneticEl;
       setIsMagnetic(!!magneticEl);
 
+      // Microscope zone detection (yields cursor ring to microscope lens)
+      const isMicro = !!target.closest("[data-microscope]");
+      setIsMicroscope(isMicro);
+
       // Contextual cursor text detection
       const textEl = target.closest("[data-cursor-text]") as HTMLElement | null;
       const text = textEl ? textEl.getAttribute("data-cursor-text") || "" : "";
@@ -62,6 +67,7 @@ export function CustomCursor() {
       setIsVisible(false);
       magneticElementRef.current = null;
       setIsMagnetic(false);
+      setIsMicroscope(false);
       setCursorText("");
     };
 
@@ -112,6 +118,11 @@ export function CustomCursor() {
           translateX: "-50%",
           translateY: "-50%",
         }}
+        animate={{
+          opacity: isMicroscope ? 0 : 1,
+          scale: isMicroscope ? 0 : 1,
+        }}
+        transition={{ duration: 0.15 }}
       />
 
       {/* Trailing Inertial Orbit Ring & Telemetry Pill (Technical Accent) */}
@@ -124,6 +135,8 @@ export function CustomCursor() {
           translateY: "-50%",
         }}
         animate={{
+          opacity: isMicroscope ? 0 : 1,
+          scale: isMicroscope ? 0.4 : 1,
           width: cursorText ? 130 : isMagnetic ? 52 : 36,
           height: cursorText ? 36 : isMagnetic ? 52 : 36,
           borderRadius: cursorText ? 18 : 26,

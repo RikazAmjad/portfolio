@@ -295,7 +295,7 @@ html.lenis, html.lenis body {
   grid-template-columns: minmax(0, 1fr);
   row-gap: clamp(6rem, 24vh, 16rem);
   margin-top: -14vh;
-  padding-bottom: clamp(6rem, 16vh, 12rem);
+  padding-bottom: clamp(10rem, 25vh, 20rem);
   list-style: none;
   perspective: 1200px;
 }

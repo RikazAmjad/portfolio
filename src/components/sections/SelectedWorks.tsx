@@ -149,10 +149,10 @@ export function SelectedWorks() {
 
     let lean = 0;
     let leanV = 0;
-    let lastY = window.scrollY;
+    let lastY = typeof window !== "undefined" ? window.scrollY : 0;
     let lastTime: number | null = null;
     let reqId = 0;
-    let onScreen = false;
+    let onScreen = true;
 
     const isReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -170,19 +170,14 @@ export function SelectedWorks() {
       }
       lastY = window.scrollY;
 
-      // Reading line check: ~42% from the top of the viewport
-      const line = height * 0.42;
-      let nearestIdx: number | null = null;
-      let minDistance = Infinity;
-
       const boxes = cardData.map((c) => c.media?.getBoundingClientRect() ?? null);
 
-      cardData.forEach((card, i) => {
-        const box = boxes[i];
-        if (!box) return;
-        if (box.bottom < -200 || box.top > height + 200) return;
+      if (!isReduced) {
+        cardData.forEach((card, i) => {
+          const box = boxes[i];
+          if (!box) return;
+          if (box.bottom < -200 || box.top > height + 200) return;
 
-        if (!isReduced) {
           const centre = box.top + box.height / 2 - card.p;
           const next = ((centre - height / 2) * card.drift).toFixed(1);
           if (next !== card.set) {
@@ -190,41 +185,76 @@ export function SelectedWorks() {
             card.set = next;
             card.p = parseFloat(next);
           }
-        }
+        });
+      }
 
-        if (box.top > height * 0.75 || box.bottom < height * 0.15) return;
-        const away = Math.abs(box.top + box.height / 2 - line);
-        if (away < minDistance) {
-          minDistance = away;
-          nearestIdx = i;
-        }
-      });
+      // Reading focal line: ~44% from the top of the viewport
+      const line = height * 0.44;
+      const sectionBox = section.getBoundingClientRect();
 
-      setActiveProjectIdx(nearestIdx);
+      // Smooth section-aware project index selection:
+      // 1. Above section -> null (caption hidden)
+      // 2. Entering section -> 0 (first project appears smoothly before its image arrives)
+      // 3. Between cards -> smoothly transitions at midpoints
+      // 4. Last card & section end -> stays permanently on the last project (NEVER hides while in the section)
+      let targetIdx: number | null = null;
+
+      if (sectionBox.top <= height * 0.85) {
+        const centers = boxes.map((b) => (b ? b.top + b.height / 2 : null));
+
+        if (centers[0] === null) {
+          targetIdx = 0;
+        } else {
+          // Default to last project so it NEVER hides at the end of the section
+          targetIdx = projects.length - 1;
+
+          for (let i = 0; i < projects.length - 1; i++) {
+            const cCurrent = centers[i];
+            const cNext = centers[i + 1];
+
+            if (cCurrent !== null && cNext !== null) {
+              const midpoint = (cCurrent + cNext) / 2;
+              if (line < midpoint) {
+                targetIdx = i;
+                break;
+              }
+            } else if (cCurrent !== null && line < cCurrent + height * 0.35) {
+              targetIdx = i;
+              break;
+            }
+          }
+        }
+      }
+
+      setActiveProjectIdx(targetIdx);
 
       const isMoving = Math.abs(window.scrollY - lastY) > 0.5 || Math.abs(lean) > 0.005;
-      reqId = onScreen && !document.hidden && isMoving ? requestAnimationFrame(onFrame) : 0;
+      reqId = isMoving && !document.hidden ? requestAnimationFrame(onFrame) : 0;
     };
 
     const wake = () => {
-      if (reqId || !onScreen || document.hidden) return;
+      if (reqId || document.hidden) return;
       lastTime = null;
-      lastY = window.scrollY;
       reqId = requestAnimationFrame(onFrame);
     };
 
     const io = new IntersectionObserver(([entry]) => {
       onScreen = entry.isIntersecting;
-      wake();
+      if (onScreen) wake();
     });
     io.observe(section);
 
     window.addEventListener("scroll", wake, { passive: true });
+    window.addEventListener("resize", wake);
     document.addEventListener("visibilitychange", wake);
+
+    // Initial frame execution
+    wake();
 
     return () => {
       io.disconnect();
       window.removeEventListener("scroll", wake);
+      window.removeEventListener("resize", wake);
       document.removeEventListener("visibilitychange", wake);
       if (reqId) cancelAnimationFrame(reqId);
     };
@@ -246,6 +276,12 @@ export function SelectedWorks() {
   };
 
   const activeProject = activeProjectIdx !== null ? projects[activeProjectIdx] : null;
+  const lastActiveProjectRef = useRef<ProjectItem>(projects[0]);
+
+  if (activeProject) {
+    lastActiveProjectRef.current = activeProject;
+  }
+  const displayProject = activeProject ?? lastActiveProjectRef.current;
 
   return (
     <section
@@ -452,35 +488,35 @@ export function SelectedWorks() {
       </ol>
 
       {/* Pinned Editorial Caption */}
-      <div className={`work__caption hidden md:block ${activeProject ? "is-on" : ""}`}>
-        {activeProject && (
+      <div className={`work__caption hidden md:block ${activeProject !== null ? "is-on" : ""}`}>
+        {displayProject && (
           <div className="max-w-[94rem] mx-auto grid grid-cols-12 gap-8 items-end">
             {/* Left: Active Project Title & Description */}
             <div className="col-span-8 flex flex-col">
               <div className="flex items-center gap-2 font-mono text-xs text-[#744470] uppercase tracking-wider mb-2 font-semibold">
                 <span className="inline-block w-2 h-2 rounded-full bg-[#FFD000]" />
-                <span>INDEX // {activeProject.id}</span>
+                <span>INDEX // {displayProject.id}</span>
                 <span className="text-black/30">•</span>
-                <span>{activeProject.category}</span>
+                <span>{displayProject.category}</span>
               </div>
               <h3 className="font-['Hobeaux',cursive,sans-serif] text-[clamp(2.2rem,3.8vw,4.2rem)] text-[#370232] leading-[0.98] tracking-tight transition-all duration-300">
-                {activeProject.title}
+                {displayProject.title}
               </h3>
               <p className="text-[#744470] text-base leading-relaxed max-w-2xl mt-4 font-sans">
-                {activeProject.description}
+                {displayProject.description}
               </p>
             </div>
 
             {/* Right: Stack Tags & Open Modal CTA */}
             <div className="col-span-4 flex flex-col items-end gap-5 text-right">
               <div className="font-mono text-xs text-[#744470] tracking-wide font-medium">
-                {activeProject.tags}
+                {displayProject.tags}
               </div>
 
               <div className="flex items-center gap-3">
-                {activeProject.liveUrl && (
+                {displayProject.liveUrl && (
                   <a
-                    href={activeProject.liveUrl}
+                    href={displayProject.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
@@ -490,7 +526,7 @@ export function SelectedWorks() {
                     <ArrowUpRight className="w-3.5 h-3.5" />
                   </a>
                 )}
-                {activeProject.isTerminal && (
+                {displayProject.isTerminal && (
                   <span className="pointer-events-none inline-flex items-center gap-2 px-4 py-3.5 rounded-full border border-[#370232]/20 bg-[#370232]/5 text-[#370232] font-mono text-xs font-bold tracking-wider uppercase">
                     <Terminal className="w-3.5 h-3.5 text-emerald-600" />
                     <span>CLI Tool</span>
@@ -498,7 +534,7 @@ export function SelectedWorks() {
                 )}
                 <button
                   type="button"
-                  onClick={() => setSelectedProjectId(activeProject.id)}
+                  onClick={() => setSelectedProjectId(displayProject.id)}
                   className="pointer-events-auto inline-flex items-center gap-3 px-6 py-3.5 rounded-full bg-[#370232] text-[#F2EEE5] font-mono text-xs font-bold tracking-wider uppercase shadow-md transition-all duration-300 hover:bg-[#FFD000] hover:text-[#370232] hover:shadow-xl hover:translate-y-[-2px] active:translate-y-0 cursor-pointer"
                 >
                   <span>Open Specification</span>

@@ -210,8 +210,8 @@ export const SKILL_CARDS_DATA: ProjectData[] = [
       "Relational schema design, caching topologies, analytical columnar storage, and query optimization for high-concurrency throughput.",
     skills: ["PostgreSQL", "MongoDB", "Redis", "Prisma ORM", "BigQuery"],
     link: "https://images.unsplash.com/photo-1544383835-bda2bc66a55d?q=80&w=1200&auto=format&fit=crop",
-    color: "#F2EEE5", // Signature Warm Archival Cream
-    textColor: "#370232",
+    color: "#744470", // Signature Amethyst Elevated Plum
+    textColor: "#F2EEE5",
   },
   {
     number: "04",
@@ -222,8 +222,8 @@ export const SKILL_CARDS_DATA: ProjectData[] = [
       "Automated zero-downtime CI/CD pipelines, Docker containerization, AWS & Vercel edge deployment, and ongoing observability after shipping.",
     skills: ["Docker", "GitHub Actions", "AWS / Vercel", "Linux", "Kubernetes"],
     link: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop",
-    color: "#744470", // Signature Amethyst Elevated Plum
-    textColor: "#F2EEE5",
+    color: "#F2EEE5", // Signature Warm Archival Cream (comes at last)
+    textColor: "#370232",
   },
 ];
 
